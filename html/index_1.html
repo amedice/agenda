@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>AGENDA</title>
+
+        <link href="assets/css/smoothness/jquery-ui-1.10.3.custom.min.css" rel="stylesheet">
+        <link href="assets/css/fullcalendar.css" rel="stylesheet">
+        <link href="assets/css/fullcalendar.print.css" rel="stylesheet">
+        
+	<style>
+            body {
+                    margin-top: 40px;
+                    text-align: center;
+                    font-size: 12px;
+                    font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
+            }
+
+            #calendar {
+                    margin: 0 auto;
+                    width: 100%;
+            }
+	</style>
+    </head>
+    <body>
+        
+        <div id='calendar'></div>
+        
+        <script src="assets/js/jquery-2.0.2.min.js"></script>
+        <script src="assets/js/jquery-ui-1.10.3.custom.min.js"></script>
+        <script src="assets/js/fullcalendar.js"></script>
+        
+        <script>
+            $(document).ready(function() {
+                
+		var date = new Date();
+		var d = date.getDate();
+		var m = date.getMonth();
+		var y = date.getFullYear();
+                
+                var calendar = $('#calendar').fullCalendar({
+                    
+                    // configurações
+                    theme: true,        
+                    editable: true,	 
+                    selectable: true,
+                    selectHelper: true,
+                    
+                    // cabeçalhos
+                    header: {
+                            left: 'prev,next today',
+                            center: 'title',
+                            right: 'month,agendaWeek,agendaDay'
+                    },
+                            
+                    // agendas cadastradas		
+                    events: "agendas.php",	
+                    
+                    // agendar           
+                    select: function(start, end, allDay) {
+                        var title = prompt('Event Title:');
+                        if (title) {
+                            calendar.fullCalendar('renderEvent', {
+                                    title: title,
+                                    start: start,
+                                    end: end,
+                                    allDay: allDay
+                                },
+                                true // make the event "stick"
+                            );
+                        }
+                        calendar.fullCalendar('unselect');
+                    },	
+
+                    // tradução
+                    monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
+                    monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'],
+                    dayNames: ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'],
+                    dayNamesShort: ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'],
+                    buttonText: {
+                        prev: '&nbsp;&#9668;&nbsp;',
+                        next: '&nbsp;&#9658;&nbsp;',
+                        prevYear: '&nbsp;&lt;&lt;&nbsp;',
+                        nextYear: '&nbsp;&gt;&gt;&nbsp;',
+                        today: 'Hoje',
+                        month: 'Mês',
+                        week: 'Semana',
+                        day: 'Dia'
+                    },		
+                    titleFormat: {
+                        month: 'MMMM yyyy',
+                        week: "d [ yyyy]{ '&#8212;'[ MMM] d MMM yyyy}",
+                        day: 'dddd, d MMM, yyyy'
+                    },
+                    columnFormat: {
+                        month: 'ddd',
+                        week: 'ddd d/M',
+                        day: 'dddd d/M'
+                    },
+                    allDayText: 'Dia todo',
+                    axisFormat: 'H:mm',
+                    timeFormat: {
+                        '': 'H(:mm)',
+                        agenda: 'H:mm{ - H:mm}'
+                    }
+                    
+                });
+            });
+        </script>
+        
+    </body>
+</html>
